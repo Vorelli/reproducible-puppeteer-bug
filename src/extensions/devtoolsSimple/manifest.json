@@ -1,0 +1,25 @@
+{
+  "name": "Simple Plugin",
+  "description": "Simple plugin that uses a devtools page",
+  "manifest_version": 3,
+  "version": "1.0",
+  "devtools_page": "devtools.html",
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "permissions": [
+    "tabs",
+    "webNavigation",
+    "webRequest",
+    "declarativeNetRequest"
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "random",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  }
+}
