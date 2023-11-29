@@ -22,10 +22,4 @@ COPY --chown=node:node ./src ./src
 RUN npm i
 RUN npm run build
 
-RUN echo Extension check...$(ls extension 2> /dev/null)
-
-RUN echo $(ls -al /app)
-RUN echo $(ls /);
-RUN echo $(ls /app);
-
 CMD ./entrypoint.sh

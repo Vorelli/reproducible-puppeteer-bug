@@ -1,6 +1,7 @@
 ### Reproducible Bug for Puppeteer version 21.4.0
 
 This repo is set up to spin up a chrome browser using puppeteer. It uses a simple plugin with a devtools_page that sends a request to a locally running Express server.
+I cannot reproduce this bug running the container on darwin/arm64, but it is seen on hosts running linux/amd64 and darwin/amd64.
 
 ### How to run
 
