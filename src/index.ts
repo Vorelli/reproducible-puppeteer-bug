@@ -41,9 +41,22 @@ const launchOptions = {
 
 let sockets: Socket[] = [];
 const app = express();
-app.get('/hello', (_req, res) => {
-  console.log('EXTENSION IS ONLINE!');
-  res.send("Ok");
+const start = new Date();
+let hasNeverSentNetwork = true;
+app.use(express.json({ limit: '1gb' }))
+app.get('/command', (_req, res) => {
+  const time = new Date().getTime() - start.getTime();
+  console.log('time:', time);
+  if (time > 9000 && hasNeverSentNetwork) {
+    hasNeverSentNetwork = false;
+    return res.send("NETWORK");
+  }
+  return res.send("NOP");
+});
+app.post('/network', (req, res) => {
+  const network = req.body;
+  console.log('received network log', JSON.stringify(network));
+  res.sendStatus(200);
 })
 const server = app.listen(1234, '127.0.0.1');
 server.on('connection', socket => {
@@ -55,6 +68,21 @@ server.on('close', (closingSocket: Socket) => {
 
 puppeteer.use(StealthPlugin());
 const browser = await puppeteer.launch(launchOptions);
+try {
+  const pages = await browser.pages();
+  const page = pages.length ? pages[0] : await browser.newPage()
+  await page.goto("https://swisscom.ch/de/privatkunden/hilfe/geraet/mobile.html");
+} catch (err) {
+  console.error("Caught error:", err);
+}
+
+process.on('uncaughtException', (err) => {
+  console.error('uncaught:', err);
+})
+
+process.on('unhandledRejection', err => {
+  console.error("Unhandled rejection:", err);
+})
 
 setTimeout(() => {
   sockets.forEach(socket => socket.destroy())
@@ -63,5 +91,4 @@ setTimeout(() => {
     browser.close();
     process.exit();
   })
-}, 10000)
-
+}, 11000)
