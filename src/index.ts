@@ -28,7 +28,7 @@ let args = [
 ];
 
 const launchOptions = {
-  headless: false,//'new',
+  headless: 'new',
   args,
   defaultViewport: { width: 1366, height: 983 },
   executablePath: process.env.CONTAINER !== undefined ? '/usr/bin/google-chrome-stable' : '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome',
@@ -71,7 +71,7 @@ const browser = await puppeteer.launch(launchOptions);
 try {
   const pages = await browser.pages();
   const page = pages.length ? pages[0] : await browser.newPage()
-  await page.goto("https://swisscom.ch/de/privatkunden/hilfe/geraet/mobile.html");
+  await page.goto("https://vorelli.github.io/index.html");
 } catch (err) {
   console.error("Caught error:", err);
 }
