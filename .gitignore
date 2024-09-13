@@ -3,3 +3,5 @@ package-lock.json
 dist
 bun.lockb
 _metadata/
+network.json
+output.json
